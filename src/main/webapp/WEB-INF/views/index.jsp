@@ -14,6 +14,7 @@ h1{
 <body>
 	<h1>Hello World!</h1>
 	<p>test</p>
+	<p>test2</p>
 <script type="text/javascript" src="/resources/static/js/index.js"></script>
 </body>
 </html>
