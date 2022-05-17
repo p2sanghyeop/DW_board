@@ -1,0 +1,14 @@
+  o__ __o__/_                                          
+ <|    v                                               
+ < >                                                   
+  |            \o__ __o     o__ __o    \o__ __o__ __o  
+  o__/_         |     |>   /v     v\    |     |     |> 
+  |            / \   < >  />       <\  / \   / \   / \ 
+ <o>           \o/        \         /  \o/   \o/   \o/ 
+  |             |          o       o    |     |     |  
+ / \           / \         <\__ __/>   / \   / \   / \ 
+                                                       
+                                                       
+                                                       
+${application.title} ${application.version}
+Spring Boot : ${spring-boot.version}
