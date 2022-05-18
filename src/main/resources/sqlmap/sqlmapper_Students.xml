@@ -1,0 +1,52 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mybatis에 mapper경로를 적어야 한다 -->
+<mapper namespace="com.dw.board.mapper.StudentsMapper">
+	
+	<insert id="insertStudents">
+	insert into students
+	(
+		students_name,
+		students_password
+	)
+	values
+	(
+		#{studentsName}, 
+		#{studentsPassword}
+	)
+	</insert>
+	<select id="selectAllStudentsList" resultType="StudentsVO">
+	select
+		students_id as studentsId,
+		students_name as studentsName,
+		students_password as studentsPassword,
+		create_at as createAt
+	from students
+	</select>
+	<select id="selectAllStudentsListMap" resultType="map">
+	select
+		students_id as studentsId,
+		students_name as studentsName,
+		students_password as studentsPassword,
+		create_at as createAt
+	from students
+	</select>
+	<select id="selectStudents" resultType="StudentsVO">
+	select
+		students_id as studentsId,
+		students_name as studentsName,
+		students_password as studentsPassword,
+		create_at as createAt
+	from students
+	where students_id = #{studentsId}
+	</select>
+	<delete id="deleteStudents">
+	delete from students 
+	where students_id = #{studentsId} 
+	</delete>
+	<update id="updateStudents">
+	update students
+	set students_name = #{studentsName},
+		students_password =#{studentsPassword}
+	where students_id = #{studentsId}
+	</update>
+</mapper>
