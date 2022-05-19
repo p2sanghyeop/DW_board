@@ -48,4 +48,17 @@ public class StudentsService {
 		vo.setStudentsId(studentsId);
 		return studentsmapper.updateStudents(vo);
 	}
+	//가입된 학생인지 아닌지 여부 체크
+	public boolean isStudents(StudentsVO vo) {
+		StudentsVO students = studentsmapper.selectStudentsOne(vo);
+		if(students == null) {//쿼리결과가 null로 리턴
+			return false;
+		}
+		String inputPassword = vo.getStudentsPassword();
+		String password = students.getStudentsPassword();
+		if(!passwordencoder.matches(inputPassword, password)) {//비밀번호체크
+			return false;
+		}
+		return true;
+	}
 }

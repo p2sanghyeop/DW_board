@@ -63,4 +63,13 @@ public interface StudentsMapper {
 	 * comment : 업데이트
 	 */
 	public int updateStudents(StudentsVO vo);
+	
+	/**
+	 * @param vo
+	 * @return : vo
+	 * @author : sanghyeop
+	 * @date : 2022.05.18
+	 * comment : 추가
+	 */
+	public StudentsVO selectStudentsOne(StudentsVO vo);
 }

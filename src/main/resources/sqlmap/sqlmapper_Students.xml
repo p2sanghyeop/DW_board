@@ -49,4 +49,13 @@
 		students_password =#{studentsPassword}
 	where students_id = #{studentsId}
 	</update>
+	<select id="selectStudentsOne" resultType="StudentsVO">
+	select
+		students_id as studentsId,
+		students_name as studentsName,
+		students_password as studentsPassword,
+		create_at as createAt
+	from students
+	where students_name = #{studentsName}
+	</select>
 </mapper>

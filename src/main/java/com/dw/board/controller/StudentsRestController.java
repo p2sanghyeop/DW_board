@@ -22,10 +22,17 @@ import com.dw.board.vo.StudentsVO;
 public class StudentsRestController {
 	@Autowired
 	private StudentsService studentsservice;
+	//학생추가
 	@CrossOrigin
 	@PostMapping("/students")
 	public int callStudents(@RequestBody StudentsVO vo) {
 		return studentsservice.setStudents(vo);
+	}
+	//중요한 정보를 서버에 전송할때 post 사용
+	@CrossOrigin
+	@PostMapping("/login")
+	public boolean callIsLogin(@RequestBody StudentsVO vo) {
+		return studentsservice.isStudents(vo);
 	}
 	//학생조회
 	@GetMapping("/students")
@@ -48,7 +55,6 @@ public class StudentsRestController {
 		return studentsservice.deleteStudents(studentsId);
 	}
 	//업데이트
-	
 	@PatchMapping("/students/id/{id}")
 	public int callEmpUpdate(@PathVariable("id")int studentsId, @RequestBody StudentsVO vo) {
 		return studentsservice.getUpdateStudents(vo, studentsId);
