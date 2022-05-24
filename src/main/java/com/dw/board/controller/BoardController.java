@@ -1,8 +1,10 @@
 package com.dw.board.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,13 +20,15 @@ public class BoardController {
 	@Autowired
 	private BoardService boardservice;
 	//저장
+	@CrossOrigin
 	@PostMapping("/board")
 	public int callSaveBoard(@RequestBody BoardVO vo) {
 		return boardservice.insertBoard(vo);
 	}
 	//조회
+	@CrossOrigin
 	@GetMapping("/board/all")
-		public List<BoardVO> callBoardList(){
+		public List<Map<String, Object>> callBoardList(){
 			return boardservice.selectAllList();
 		}
 	

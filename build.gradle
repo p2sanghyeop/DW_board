@@ -31,6 +31,8 @@ dependencies {
 	implementation 'javax.servlet:jstl'
 	//spring seurity
 	implementation("org.springframework.boot:spring-boot-starter-security")
+	//section
+	implementation 'org.springframework.session:spring-session-core'
 }
 
 tasks.named('test') {

@@ -15,14 +15,18 @@
 	,#{studentsId}</if>
 	)
 	</insert>
-	<select id="selecrAllBoard" resultType="BoardVO" >
+	<!-- join으로 조회할때 resultType map으로  -->
+	<select id="selecrAllBoard" resultType="map" >
 	select
-	board_id as boardId,
-	students_id as studentsId,
-	title,
-	content,
-	update_at as updateAt,
-	create_at as createAt
-	from board
+	b.board_id as boardId,
+	s.students_id as studentsId,
+	s.students_name as studentsName,
+	b.title,
+	b.content,
+	ifnull(b.update_at, '-') as updateAt,
+	date_format(b.create_at, '%Y-%m-%d') as createAt
+	from board as b
+	inner join students as s
+	on b.students_id = s.students_id
 	</select>
 </mapper>
