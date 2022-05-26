@@ -48,8 +48,9 @@ public class StudentsRestController {
 	//map으로 조회
 	@GetMapping("/students/map")
 	public List<Map<String, Object>> callStudentsListByMap(HttpSession httpSession){
-		String name = (String)httpSession.getAttribute("name");
-		System.out.println("====>"+name);
+		//세션 데이터 가져오기 (추후 로직 구현 예정)
+//		String name = (String)httpSession.getAttribute("name");
+//		System.out.println("====>"+name);
 		return studentsservice.getAllStudentsListMap();
 	}
 	//특정학생조회(PK로 조회예정)

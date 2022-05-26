@@ -23,10 +23,34 @@
 	s.students_name as studentsName,
 	b.title,
 	b.content,
-	ifnull(b.update_at, '-') as updateAt,
+	ifnull(date_format(b.update_at, '%Y-%m-%d'), '-') as updateAt,
 	date_format(b.create_at, '%Y-%m-%d') as createAt
 	from board as b
 	inner join students as s
 	on b.students_id = s.students_id
+	</select>
+	<delete id="deleteBoard">
+	delete from board
+	where board_id = #{boardId}
+	</delete>
+	<update id="updateBoard">
+	update board
+	set title = #{title},
+		content = #{content},
+		update_at = now()
+	where board_id = #{boardId}
+	</update>
+	<select id="read" resultType="BoardVO">
+	select
+		b.board_id as boardId,
+		s.students_id as studentsId,
+		b.title,
+		b.content,
+		b.update_at as updateAt,
+		b.create_at as createAt
+	from board as b
+	inner join students as s
+	on b.students_id = s.students_id
+	where b.board_id = #{boardId}
 	</select>
 </mapper>
