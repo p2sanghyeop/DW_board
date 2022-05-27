@@ -18,16 +18,32 @@
 	<!-- join으로 조회할때 resultType map으로  -->
 	<select id="selecrAllBoard" resultType="map" >
 	select
-	b.board_id as boardId,
-	s.students_id as studentsId,
-	s.students_name as studentsName,
-	b.title,
-	b.content,
-	ifnull(date_format(b.update_at, '%Y-%m-%d'), '-') as updateAt,
-	date_format(b.create_at, '%Y-%m-%d') as createAt
+		b.board_id as boardId,
+		s.students_id as studentsId,
+		s.students_name as studentsName,
+		b.title,
+		b.content,
+		ifnull(date_format(b.update_at, '%Y-%m-%d'), '-') as updateAt,
+		date_format(b.create_at, '%Y-%m-%d') as createAt,
+		b.cnt
 	from board as b
 	inner join students as s
 	on b.students_id = s.students_id
+	</select>
+	<select id="selecrSearchBoardList" resultType="map">
+	select
+		b.board_id as boardId,
+		s.students_id as studentsId,
+		s.students_name as studentsName,
+		b.title,
+		b.content,
+		ifnull(date_format(b.update_at, '%Y-%m-%d'), '-') as updateAt,
+		date_format(b.create_at, '%Y-%m-%d') as createAt,
+		b.cnt
+	from board as b
+	inner join students as s
+	on b.students_id = s.students_id
+	where s.students_name like concat(#{studentsName}, '%')
 	</select>
 	<delete id="deleteBoard">
 	delete from board
@@ -53,4 +69,18 @@
 	on b.students_id = s.students_id
 	where b.board_id = #{boardId}
 	</select>
+	<select id="selectBoardOne" resultType="BoardVO">
+	select
+		title,
+		content,
+		create_at,
+		cnt
+	from board
+	where board_id =#{boardId}
+	</select>
+	<update id="updateBoardCnt" >
+	update board
+	set cnt = #{cnt}
+	where board_id = #{boardId}
+	</update>
 </mapper>

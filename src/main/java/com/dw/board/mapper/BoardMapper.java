@@ -21,4 +21,9 @@ public interface BoardMapper {
 	//상세보기
 	public BoardVO read(int boardId);
 	
+	public BoardVO selectBoardOne(int boardId);
+	
+	public int updateBoardCnt(BoardVO vo);
+	
+	public List<Map<String, Object>> selecrSearchBoardList(String studentsName);
 }

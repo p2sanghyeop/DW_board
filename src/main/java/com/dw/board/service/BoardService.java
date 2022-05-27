@@ -37,4 +37,19 @@ public class BoardService {
 	public BoardVO readBoard( int boardId) {		
 		return boardmapper.read(boardId);
 	}
+	
+	//게시물 조회수 증가
+	public int getUpdateBoardViews(int boardId) {
+		//1. 게시판 번호를 이용해서 조회수 컬럼을 select
+		BoardVO vo =boardmapper.selectBoardOne(boardId);
+		int views = vo.getCnt();
+		++views; //조회수 1증가함
+		vo.setCnt(views);
+		vo.setBoardId(boardId);
+		//update
+		return boardmapper.updateBoardCnt(vo);
+	}
+	public List<Map<String, Object>> getSearchBoard(String studetnsName){
+		return boardmapper.selecrSearchBoardList(studetnsName);
+	}
 }
