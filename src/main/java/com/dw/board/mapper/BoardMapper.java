@@ -20,12 +20,12 @@ public interface BoardMapper {
 	public int updateBoard(BoardVO vo);
 	//상세보기
 	public BoardVO read(int boardId);
-	
+	//게시글 조회수 카운트
 	public BoardVO selectBoardOne(int boardId);
-	
+	//게시글 조회수 카운트
 	public int updateBoardCnt(BoardVO vo);
-	
+	//작성자가 게시한 게시물 조회
 	public List<Map<String, Object>> selecrSearchBoardList(String studentsName);
-	
+	//게시글수,학생수, 총조회수 조회
 	public Map<String, Object> selectBoardStartList();
 }
