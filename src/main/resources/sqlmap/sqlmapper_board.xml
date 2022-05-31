@@ -83,4 +83,20 @@
 	set cnt = #{cnt}
 	where board_id = #{boardId}
 	</update>
+	<select id="selectBoardStartList" resultType="map">
+	select
+		count(students_id) as studentscnt,
+		(select
+			count(board_id)
+		from board) as boardcnt, 
+		(select
+			count(distinct(b.students_id))
+		from students s 
+		inner join board b 
+		on s.students_id = b.students_id) as writecnt, 
+		(select 
+			sum(cnt) 
+		from board ) as viewcnt
+		from students
+	</select>
 </mapper>

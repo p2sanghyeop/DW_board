@@ -26,4 +26,6 @@ public interface BoardMapper {
 	public int updateBoardCnt(BoardVO vo);
 	
 	public List<Map<String, Object>> selecrSearchBoardList(String studentsName);
+	
+	public Map<String, Object> selectBoardStartList();
 }

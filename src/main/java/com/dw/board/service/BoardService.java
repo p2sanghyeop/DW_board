@@ -49,7 +49,13 @@ public class BoardService {
 		//update
 		return boardmapper.updateBoardCnt(vo);
 	}
+	//작성자가 작성한 게시물 조회
 	public List<Map<String, Object>> getSearchBoard(String studetnsName){
 		return boardmapper.selecrSearchBoardList(studetnsName);
+	}
+	
+	//학생수, 게시글수, 작성자수, 총조회수 조회
+	public Map<String, Object> getBoardStartList(){
+		return boardmapper.selectBoardStartList();
 	}
 }

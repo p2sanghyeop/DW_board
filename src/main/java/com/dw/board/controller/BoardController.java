@@ -66,4 +66,11 @@ public class BoardController {
 	public List<Map<String, Object>> callBoardSearch(@RequestParam("writer")String writer){
 		return boardservice.getSearchBoard(writer);
 	}
+	//통계조회
+	@CrossOrigin
+	@GetMapping("/board/startlist")
+	public Map<String, Object> callBoardStartList(){
+		return boardservice.getBoardStartList();
+	}
+	
 }
