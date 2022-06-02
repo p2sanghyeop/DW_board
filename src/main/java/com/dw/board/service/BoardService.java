@@ -13,10 +13,11 @@ import com.github.pagehelper.PageHelper;
 
 @Service
 public class BoardService {
-	//저장
+	
 	@Autowired
 	private BoardMapper boardmapper;
 	
+	//저장
 	@Transactional(rollbackFor = {Exception.class})
 	public int insertBoard(BoardVO vo) {
 		return boardmapper.insertBoard(vo);
