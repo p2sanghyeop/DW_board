@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dw.board.service.BoardService;
 import com.dw.board.vo.BoardVO;
+import com.github.pagehelper.PageInfo;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -32,9 +33,13 @@ public class BoardController {
 	//조회(R)
 	@CrossOrigin
 	@GetMapping("/board/all")
-		public List<Map<String, Object>> callBoardList(){
-			return boardservice.selectAllList();
+	//리턴타입 List<Map<String, Object>>에서 pageinfo<map<stirng,object>>
+		public PageInfo<Map<String, Object>> callBoardList(@RequestParam("pageNum")int pageNum, 
+				@RequestParam("pageSize")int pageSize ){
+		List<Map<String, Object>> list = boardservice.selectAllList(pageNum, pageSize);
+			return new PageInfo<Map<String, Object>>(list);
 		}
+	
 	//게시판 삭제(D)
 	@CrossOrigin
 	@DeleteMapping("/board/boardid/{id}")

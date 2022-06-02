@@ -6,10 +6,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.dw.board.mapper.BoardMapper;
 import com.dw.board.vo.BoardVO;
+import com.github.pagehelper.PageHelper;
 
 @Service
 public class BoardService {
@@ -21,8 +21,11 @@ public class BoardService {
 	public int insertBoard(BoardVO vo) {
 		return boardmapper.insertBoard(vo);
 	}
-	
-	public List<Map<String, Object>> selectAllList(){
+	//게시판전체조회
+	//pageNum:현재페이지
+	//PageSize:한페이지에 게시물 몇개 보여줄지
+	public List<Map<String, Object>> selectAllList(int pageNum, int pageSize){
+		PageHelper.startPage(pageNum, pageSize);
 		return boardmapper.selecrAllBoard();
 	}
 	@Transactional(rollbackFor = {Exception.class})
