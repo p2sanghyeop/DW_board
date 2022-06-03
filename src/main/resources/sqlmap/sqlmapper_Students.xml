@@ -58,4 +58,12 @@
 	from students
 	where students_name = #{studentsName}
 	</select>
+	<select id="selecrSearchstudetnslist" resultType="map">
+	select		
+		students_id as studentsId,
+		students_name as studentsName,
+		date_format(create_at, '%Y-%m-%d')as createAt
+	from students 
+	where students_name like concat(#{studentsName}, '%')
+	</select>
 </mapper>

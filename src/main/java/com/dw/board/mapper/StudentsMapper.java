@@ -72,4 +72,6 @@ public interface StudentsMapper {
 	 * comment : 추가
 	 */
 	public StudentsVO selectStudentsOne(StudentsVO vo);
+	
+	public List<Map<String, Object>> selecrSearchstudetnslist(String studentsName);
 }

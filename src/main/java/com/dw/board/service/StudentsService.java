@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dw.board.mapper.StudentsMapper;
 import com.dw.board.vo.StudentsVO;
+import com.github.pagehelper.PageHelper;
 
 @Service
 public class StudentsService {
@@ -32,7 +33,8 @@ public class StudentsService {
 		return studentsmapper.selectAllStudentsList();
 	}
 	//학생조회 map
-	public List<Map<String, Object>> getAllStudentsListMap(){
+	public List<Map<String, Object>> getAllStudentsListMap(int pageNum, int pageSize){
+		PageHelper.startPage(pageNum, pageSize);
 		return studentsmapper.selectAllStudentsListMap();
 	}
 	//특정학생 조회
@@ -62,5 +64,9 @@ public class StudentsService {
 			return false;
 		}
 		return true;
+	}
+	//작성자가 작성한 게시물 조회
+	public List<Map<String, Object>> getSearchStudents(String studetnsName){
+		return studentsmapper.selecrSearchstudetnslist(studetnsName);
 	}
 }

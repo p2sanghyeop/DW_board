@@ -1,0 +1,40 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mybatis에 mapper경로를 적어야 한다 -->
+<mapper namespace="com.dw.board.mapper.LogMapper">
+	<insert id="insertLog">
+	insert into board_logs
+	(
+		ip,
+		latitude,
+		longitude,
+		url,
+		http_method,
+		create_at
+	)
+	values
+	(
+		#{ip},
+		#{latitude},
+		#{longitude},
+		#{url},
+		#{httpMethod},
+		#{createAt}
+	)		
+	</insert>
+	
+	<select id="selectBoardLog" resultType="map">
+	select
+		log_id,
+		ip,
+		latitude,
+		longitude,
+		url,
+		http_method,
+		create_at
+	from board_logs
+	<if test="logId !=0">
+	where log_id = #{logId}
+	</if>
+	</select>
+	
+</mapper>
