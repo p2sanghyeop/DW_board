@@ -59,23 +59,30 @@ public class StudentsRestController {
 		return new PageInfo<Map<String, Object>>(list);
 //		return studentsservice.getAllStudentsListMap();
 	}
+	//학생 검색
 	@CrossOrigin
 	@GetMapping("/students/search")
-	public List<Map<String, Object>> callStudentsSearch(@RequestParam("studentsName")String studentsName){
-		return studentsservice.getSearchStudents(studentsName);
+	public PageInfo<Map<String, Object>> callStudentsSearch(@RequestParam("studentsName")String studentsName,@RequestParam("pageNum")int pageNum, 
+			@RequestParam("pageSize")int pageSize){
+		List<Map<String, Object>> list = studentsservice.getSearchStudents(studentsName,pageNum, pageSize); 
+//		return studentsservice.getSearchStudents(studentsName);
+		return new PageInfo<Map<String, Object>>(list);
 	}
 	
 	//특정학생조회(PK로 조회예정)
-	@GetMapping("/students/id/{id}")
+	@CrossOrigin
+	@GetMapping("/students/id/number/{id}")
 	public StudentsVO callStudents(@PathVariable("id")int studentsId) {
 		return studentsservice.getStudentsFind(studentsId);
 	}
 	//삭제
+	@CrossOrigin
 	@DeleteMapping("/students/id/{id}")
 	public int callRemoveStudents(@PathVariable("id")int studentsId) {
 		return studentsservice.deleteStudents(studentsId);
 	}
 	//업데이트
+	@CrossOrigin
 	@PatchMapping("/students/id/{id}")
 	public int callEmpUpdate(@PathVariable("id")int studentsId, @RequestBody StudentsVO vo) {
 		return studentsservice.getUpdateStudents(vo, studentsId);

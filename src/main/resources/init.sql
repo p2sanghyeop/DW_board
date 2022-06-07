@@ -32,3 +32,7 @@ CREATE TABLE IF NOT EXISTS board_logs
 	http_method VARCHAR(10) COMMENT 'http method',
 	create_at DATETIME COMMENT '접속 시간'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--ALTER TABLE board DROP FOREIGN KEY board_students_id_fk;
+--ALTER TABLE board ADD FOREIGN KEY (students_id) REFERENCES students ON DELETE CASCADE;
+--alter table board add constraint board foreign key (students_id) references students(students_id) on delete cascade;

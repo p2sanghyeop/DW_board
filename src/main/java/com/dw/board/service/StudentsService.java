@@ -66,7 +66,8 @@ public class StudentsService {
 		return true;
 	}
 	//작성자가 작성한 게시물 조회
-	public List<Map<String, Object>> getSearchStudents(String studetnsName){
+	public List<Map<String, Object>> getSearchStudents(String studetnsName, int pageNum, int pageSize){
+		PageHelper.startPage(pageNum, pageSize);
 		return studentsmapper.selecrSearchstudetnslist(studetnsName);
 	}
 }
