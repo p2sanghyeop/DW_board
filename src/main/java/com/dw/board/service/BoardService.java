@@ -54,7 +54,8 @@ public class BoardService {
 		return boardmapper.updateBoardCnt(vo);
 	}
 	//작성자가 작성한 게시물 조회
-	public List<Map<String, Object>> getSearchBoard(String studetnsName){
+	public List<Map<String, Object>> getSearchBoard(String studetnsName,int pageNum, int pageSize){
+		PageHelper.startPage(pageNum, pageSize);
 		return boardmapper.selecrSearchBoardList(studetnsName);
 	}
 	

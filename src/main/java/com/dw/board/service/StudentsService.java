@@ -50,6 +50,9 @@ public class StudentsService {
 	@Transactional(rollbackFor = {Exception.class})
 	public int getUpdateStudents(StudentsVO vo, int studentsId) {
 		vo.setStudentsId(studentsId);
+		String password = vo.getStudentsPassword();
+		password = passwordencoder.encode(password);
+		vo.setStudentsPassword(password);
 		return studentsmapper.updateStudents(vo);
 	}
 	//가입된 학생인지 아닌지 여부 체크

@@ -68,8 +68,11 @@ public class BoardController {
 	//쿼리스트링으로 검색한 작성한 작성자 게시판 리스트 조회
 	@CrossOrigin
 	@GetMapping("/board/search")
-	public List<Map<String, Object>> callBoardSearch(@RequestParam("writer")String writer){
-		return boardservice.getSearchBoard(writer);
+	public PageInfo<Map<String, Object>> callBoardSearch(@RequestParam("writer")String writer,@RequestParam("pageNum")int pageNum, 
+			@RequestParam("pageSize")int pageSize){
+		List<Map<String, Object>> list = boardservice.getSearchBoard(writer, pageNum, pageSize);
+//		return boardservice.getSearchBoard(writer);
+		return new PageInfo<Map<String, Object>>(list);
 	}
 	//통계조회
 	@CrossOrigin
