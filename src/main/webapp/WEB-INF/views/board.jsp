@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:set var="path" value="${requestScope['javax.servlet.forward.request_uri']}"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,19 +65,19 @@
                 <li>
                     <a href="/board?pageNum=1&pageSize=10">
                         <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
-                        <span class="title" onclick="goPage(dashboard)">Dashboard</span>                
+                        <span class="title">Dashboard</span>                
                     </a>
                 </li>
                 <li>
-                    <a href="/students">
+                    <a href="/students?pageNum=1&pageSize=10">
                         <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
-                        <span class="title" onclick="goPage(students)">Students</span>                
+                        <span class="title">Students</span>                
                     </a>
                 </li>
                 <li>
-                    <a href="/logs">
+                    <a href="/logs?&pageNum=1&pageSize=10">
                         <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
-                        <span class="title" onclick="goPage(logs)">Logs</span>                
+                        <span class="title">Logs</span>                
                     </a>
                 </li>
                 <li>
@@ -99,7 +100,7 @@
             <div class="search">
                 <label>
                     <input id="searchBar" type="text" placeholder="작성자를 검색하세요...">
-                    <input id="keyword" type="hidden" value="null">
+                    <input id="keyword" type="hidden" value="">
                 </label>
             </div>
             <div>
@@ -172,7 +173,7 @@
 				                     		<td>${page.studentsName}</td>
 				                     		<td>${page.title}</td>
 				                     		<td>${page.updateAt}</td>
-				                     		<td>${page.createAt}</td>				                  
+				                     		<td>${page.createAt}</td>			                  
 					                     	<c:if test="${page.cnt<=10}">
 					                     		<td><span class="row">${page.cnt}</td>		                     	
 											</c:if>
@@ -224,14 +225,27 @@
                      </tbody>
                  </table>
                  <div class="pagination">
-                 	<c:if test="${pageHelper.hasPreviousPage}">
-                 		<a onclick="getBoardList(${pageNum-1},10)">Previous</a>
-					</c:if>
-                 	<c:forEach begin="${pageHelper.navigateFirstPage}" end="${pageHelper.navigateLastPage}" var="pageNum">
-                 		<a id="pageNum${pageNum}" onclick="getBoardList(${pageNum},10)">${pageNum}</a>
-					</c:forEach>
-					<c:if test="${pageHelper.hasNextPage}">
-						<a onclick="getBoardList(${pageNum+1},10)">Next</a>
+                 	<c:if test="${path eq '/board'}">
+	                 	<c:if test="${pageHelper.hasPreviousPage}">
+	                 		<a onclick="getBoardList(${pageNum-1},10)">Previous</a>
+						</c:if>
+	                 	<c:forEach begin="${pageHelper.navigateFirstPage}" end="${pageHelper.navigateLastPage}" var="pageNum">
+	                 		<a id="pageNum${pageNum}" onclick="getBoardList(${pageNum},10)">${pageNum}</a>
+						</c:forEach>
+						<c:if test="${pageHelper.hasNextPage}">
+							<a onclick="getBoardList(${pageNum+1},10)">Next</a>
+						</c:if>
+                 	</c:if>
+					<c:if test="${path eq '/board/search'}">
+						<c:if test="${pageHelper.hasPreviousPage}">
+	                 		<a onclick="getFindList('${param.writer}', ${pageNum-1}, 10)">Previous</a>
+						</c:if>
+	                 	<c:forEach begin="${pageHelper.navigateFirstPage}" end="${pageHelper.navigateLastPage}" var="pageNum">
+	                 		<a id="pageNum${pageNum}" onclick="getFindList('${param.writer}',${pageNum},10)">${pageNum}</a>
+						</c:forEach>
+						<c:if test="${pageHelper.hasNextPage}">
+							<a onclick="getFindList('${param.writer}',${pageNum+1},10)">Next</a>
+						</c:if>
 					</c:if>
                     <input id="nowPageNum" type="hidden" value="${pageHelper.pageNum}">
                     <!-- <a href="#">Previous</a>
@@ -263,6 +277,7 @@
     });
     $('.btn-close').click(function(){
         $('.update-popup').css('display', 'none');
+        location.reload();
     })
 
     let list = document.querySelectorAll('.navigation li');
@@ -275,6 +290,19 @@
 <script>
 	function getBoardList(pageNum, pageSize){
 		location.href = "/board?pageNum="+pageNum+"&pageSize="+pageSize;
+	}
+	
+	
+	
+	/* function getSearchList(pageNum, pageSize){
+		var search = $('#searchBar').val().trim();
+		$('#keyword').val(search);
+		var keyword = $('#keyword').val(); 
+		location.href="/board/search?writer="+keyword+"&pageNum="+pageNum+"&pageSize="+pageSize;
+	} */
+	
+	function getFindList(writer, pageNum, pageSize){
+		location.href="/board/search?writer="+writer+"&pageNum="+pageNum+"&pageSize="+pageSize;
 	}
 	
 	function getPageNum(){
@@ -349,7 +377,6 @@
 	        success : function(response){
 	          console.log(response)
 	          if(response>0){
-	           $('.write-popup').css('display', 'none');
 	           var pageNum = $('#nowPageNum').val();
 	           	getBoardList(pageNum,10);
 	                }
@@ -434,16 +461,21 @@
     }
 	getBoardStartList()
 	
+	
+	
+	
+	
 	$('#searchBar').keyup(function(key){
         var pageSize = 10;
         var pageNum = 1;
         if(key.keyCode == 13){
             var search = $('#searchBar').val().trim();//input에 작성한 작성자를 가져옴
            	if(search != ''){
-           		location.href="/board/search?writer="+search+"&pageNum="+pageNum+"&pageSize="+pageSize;
+           		location.href="/board/search?writer="+search+"&pageNum="+pageNum+"&pageSize="+pageSize;	       	  	
            	}
         }
-    });
+	});
+	
 	
 	
 	

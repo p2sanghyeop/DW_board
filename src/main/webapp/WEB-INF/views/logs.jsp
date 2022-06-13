@@ -13,23 +13,23 @@
 </head>
 <body>
     <div class="container">
-        <!-- ì ì ê¸°ë¡ íì -->
+        <!-- 접속 기록 팝업 -->
         <div class="logs-popup">
             <div class="editor">
                 <div class="input-box">
-                    <label for="studentsName">ì ì IP : </label>
+                    <label for="studentsName">접속 IP : </label>
                     <input id="ip" type="text" value="192.168.52.43" readonly>
                 </div>
                 <div class="input-box">
-                    <label for="title">ì ì ìê° : </label>
+                    <label for="title">접속 시간 : </label>
                     <input id="creatAt" type="text" value="2022-06-02 09:10:58" readonly>
                 </div>
                 <div class="input-box">
-                    <!-- ì¹´ì¹´ì¤ë§µ ìì¹ -->
+                    <!-- 카카오맵 위치 -->
                     <div id="map" style="width:100%; height:300px;"></div>
                 </div>
                 <div class="btn-area">
-                    <a href="#" class="btn-cancel">ë«ê¸°</a>
+                    <a href="#" class="btn-cancel">닫기</a>
                 </div>
             </div>
         </div>
@@ -44,19 +44,19 @@
                 <li>
                     <a href="/board?pageNum=1&pageSize=10">
                         <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
-                        <span class="title" onclick="goPage(dashboard)">Dashboard</span>                
+                        <span class="title">Dashboard</span>                
                     </a>
                 </li>
                 <li>
-                    <a href="/students">
+                    <a href="/students?pageNum=1&pageSize=10">
                         <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
-                        <span class="title" onclick="goPage(students)">Students</span>                
+                        <span class="title">Students</span>                
                     </a>
                 </li>
                 <li>
-                    <a href="/logs">
+                    <a href="/logs?&pageNum=1&pageSize=10">
                         <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
-                        <span class="title" onclick="goPage(logs)">Logs</span>                
+                        <span class="title">Logs</span>                
                     </a>
                 </li>
                 <li>
@@ -72,13 +72,13 @@
     <div class="main">
         <div class="topbar">
             <div class="toggle">
-                <!-- toggleì ëì¤ì ë§ë¤ê¸° -->
+                <!-- toggle은 나중에 만들기 -->
                 <ion-icon name="menu-outline"></ion-icon>
             </div>
             <!-- search -->
             <div class="search">
                 <label>
-                    <!-- <input id="searchBar" type="text" placeholder="ìì±ìë¥¼ ê²ìíì¸ì..." > -->
+                    <!-- <input id="searchBar" type="text" placeholder="작성자를 검색하세요..." > -->
                 </label>
             </div>
             <div>
@@ -89,19 +89,35 @@
          <div class="details">
              <div class="recentOrders">
                  <div class="cardHeader">
-                     <h2>ì ìì íì¤í ë¦¬</h2>
+                     <h2>접속자 히스토리</h2>
                  </div>
                  <table>
                      <thead>
                          <tr>
-                            <th>ë¡ê·¸ ë²í¸</th>
+                            <th>로그 번호</th>
                             <th>IP</th>
-                            <th>ìì²­ URL</th>
+                            <th>요청 URL</th>
                             <th>HTTP Method</th>
-                            <th>ì ì ë ì§</th>
+                            <th>접속 날짜</th>
                          </tr>
                      </thead>
                      <tbody id="boardData">
+                     <c:choose>
+	                     	<c:when test="${fn:length(pageHelper.list)>0}">
+                     				<c:forEach items="${pageHelper.list}" var="page">
+				                     	<tr onclick="getPopup(${page.log_id})">
+				                     		<td>${page.log_id}</td>
+				                     		<td>${page.ip}</td>
+				                     		<td>${page.url}</td>
+				                     		<td>${page.http_method}</td>
+				                     		<td>${page.create_at}</td>			                  
+										</tr>
+									</c:forEach>
+							</c:when>
+	                     	<c:otherwise>
+	                     	<tr><td colspan=5 style="text-align: center;">접속기록이 없습니다</td></tr>
+							</c:otherwise>          	
+					</c:choose>
                          <!-- <tr onclick="getPopup()">
                             <td>1</td>
                             <td>192.158.0.252</td>
@@ -126,6 +142,16 @@
                      </tbody>
                  </table>
                  <div class="pagination">
+                 <c:if test="${pageHelper.hasPreviousPage}">
+                 		<a onclick="getLogList(${pageNum-1},10)">Previous</a>
+					</c:if>
+                 	<c:forEach begin="${pageHelper.navigateFirstPage}" end="${pageHelper.navigateLastPage}" var="pageNum">
+                 		<a id="pageNum${pageNum}" onclick="getLogList(${pageNum},10)">${pageNum}</a>
+					</c:forEach>
+					<c:if test="${pageHelper.hasNextPage}">
+						<a onclick="getLogList(${pageNum+1},10)">Next</a>
+					</c:if>
+					<input id="nowPageNum" type="hidden" value="${pageHelper.pageNum}">
                     <!-- <a href="#">Previous</a>
                     <a href="#">1</a>
                     <a href="#">2</a>
@@ -156,14 +182,15 @@
 </script>
 <script>
     $('.logs-popup').css('display', 'none');
+    
     function getPopup(logId){
         console.log(logId)
         $('.logs-popup').css('display', 'block');
         $('.update-popup').css('display', 'block')
         
-        //ajaxìì±
+        //ajax작성
         $.ajax({
-        url : 'http://localhost:8080/api/v1/logs/logid/'+logId,
+        url : '/api/v1/logs/logid/'+logId,
         type : 'GET',
         dataType : 'json',
         success : function(response){
@@ -171,18 +198,18 @@
             var longitude = response.longitude;
             $('#ip').val(response.ip)
             $('#creatAt').val(response.create_at)
-            var mapContainer = document.getElementById('map'), // ì§ëë¥¼ íìí  div 
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
             mapOption = { 
-            center: new kakao.maps.LatLng(latitude, longitude), // ì§ëì ì¤ì¬ì¢í
-            level: 3 // ì§ëì íë ë ë²¨
+            center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
             };
 
-            var map = new kakao.maps.Map(mapContainer, mapOption); // ì§ëë¥¼ ìì±í©ëë¤
+            var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
-            // ë§ì»¤ê° íìë  ìì¹ìëë¤ 
+            // 마커가 표시될 위치입니다 
             var markerPosition  = new kakao.maps.LatLng(36.3286904, 127.4229992); 
 
-            // ë§ì»¤ë¥¼ ìì±í©ëë¤
+            // 마커를 생성합니다
             var marker = new kakao.maps.Marker({
             position: markerPosition
             });
@@ -194,48 +221,20 @@
     $('.btn-cancel').click(function(){
         $('.logs-popup').css('display', 'none');
      });
-     //ì¹´ì¹´ì¤ë§µ
+     //카카오맵
     
      
 </script>
 <script>
-   
-    function getLogList(pageNum, pageSize){
-         $.ajax({
-             url : 'http://localhost:8080/api/v1/logs?pageNum='+pageNum+'&pageSize='+pageSize,
-             type : 'GET',
-             dataType : 'json',
-            success : function(response){
-                console.log(response)
-                var html =''
-                if(response.list.length>0){
-                    for(var i=0; i<response.list.length; ++i){
-                        html += '<tr onclick=getPopup('+response.list[i].log_id+')><td>'+response.list[i].log_id+'</td><td>'+response.list[i].ip+'</td><td>'+response.list[i].url+'</td><td>'+response.list[i].http_method+'</td><td>'+response.list[i].create_at+'</td></tr>'
-                    }
-                    var paginationHtml = '';
-                        if(response.hasPreviousPage){ //ì´ì  íì´ì§ê° true ë¼ë©´
-                            paginationHtml += '<a onclick="getLogList('+(response.pageNum-1)+','+pageSize+')" href="#">Previous</a>';
-                        }
-                        for(var i=0; i<response.navigatepageNums.length; i++){ //íì´ì§ ë²í¸ ê¸¸ì´ ë§í¼ forë¬¸ ì¤í
-                            paginationHtml += '<a id="pageNum'+response.navigatepageNums[i]+'"onclick="getLogList('+response.navigatepageNums[i]+','+pageSize+')"href="#">'+response.navigatepageNums[i]+'</a>';
-                        }
-                        if(response.hasNextPage){ //ë¤ì íì´ì§ê° true ë¼ë©´
-                            paginationHtml += '<a onclick="getLogList('+(response.pageNum+1)+','+pageSize+')" href="#">Next</a>';
-                        }
-                        $('.pagination').children().remove()
-                        $('.pagination').append(paginationHtml);
-                        //íì´ì§ ë²í¸ì ë§ê² css ìì 
-                        $('#pageNum'+pageNum).css('backgroundColor','#287bff')
-                        $('#pageNum'+pageNum).css('color','#fff')
-                }
-                else{
-                    html += '<tr><td colspan=5 style="text-align: center;">ê²ìê¸ì´ ììµëë¤</td></tr>'
-                }
-                $('#boardData').children().remove()
-                $('#boardData').append(html)
-            }
-         })
-     }
-     getLogList(1,10)
+function getLogList(pageNum, pageSize){
+	location.href="/logs?&pageNum="+pageNum+"&pageSize="+pageSize;
+}
+
+function getPageNum(){
+	var pageNum = $('#nowPageNum').val();
+	$('#pageNum'+pageNum).css('backgroundColor', '#287bf4')
+	$('#pageNum'+pageNum).css('color', '#fff')
+}
+getPageNum()
 </script>
 </html>
