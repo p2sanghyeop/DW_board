@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.dw.board.vo.BoardVO;
@@ -28,4 +29,9 @@ public interface BoardMapper {
 	public List<Map<String, Object>> selecrSearchBoardList(String studentsName);
 	//게시글수,학생수, 총조회수 조회
 	public Map<String, Object> selectBoardStartList();
+	
+	public  int SelectAllBoardTotal();
+	
+	public List<Map<String, Object>> selecrSearchBoardListTest(@Param("pageNum")int pageNum,
+			@Param("pageSize")int pageSize);
 }

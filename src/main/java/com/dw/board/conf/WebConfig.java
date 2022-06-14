@@ -11,12 +11,17 @@ import com.dw.board.interceptor.Interceptor;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer{
+	
 	@Autowired
 	private Interceptor interceptor;
+	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		//우리가 만든 인터셉터를 스츠링에 등록
-		registry.addInterceptor(interceptor).excludePathPatterns("/api/v1/logs");
+		//우리가 만든 인터셉터를 스트링에 등록
+		//excludePathPatterns: 해당url을 인터셉터대상에서 제외
+		registry
+		.addInterceptor(interceptor)
+		.excludePathPatterns("/api/v1/logs","/api/v1/login","/login","/join","/resources/static/css/*","/resources/static/js/*");
 	}
 }
 

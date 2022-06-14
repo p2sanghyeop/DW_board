@@ -99,4 +99,27 @@
 		from board ) as viewcnt
 		from students
 	</select>
+	<select id="SelectAllBoardTotal" resultType="int">
+		select 
+			count(*)
+		from board as b
+		inner join students as s
+		on b.students_id = s.students_id
+	</select>
+	
+	<select id="selecrSearchBoardListTest" resultType="map">
+	select
+		b.board_id as boardId,
+		s.students_id as studentsId,
+		s.students_name as studentsName,
+		b.title,
+		b.content,
+		ifnull(date_format(b.update_at, '%Y-%m-%d'), '-') as updateAt,
+		date_format(b.create_at, '%Y-%m-%d') as createAt,
+		b.cnt
+	from board as b
+	inner join students as s
+	on b.students_id = s.students_id
+	limit #{pageNum},#{pageSize}
+	</select>
 </mapper>

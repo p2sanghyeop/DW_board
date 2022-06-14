@@ -56,7 +56,7 @@ public class StudentsService {
 		return studentsmapper.updateStudents(vo);
 	}
 	//가입된 학생인지 아닌지 여부 체크
-	public boolean isStudents(StudentsVO vo) {
+	public boolean isStudents(StudentsVO vo, HttpSession httpsession) {
 		StudentsVO students = studentsmapper.selectStudentsOne(vo);
 		if(students == null) {//쿼리결과가 null로 리턴
 			return false;
@@ -66,6 +66,9 @@ public class StudentsService {
 		if(!passwordencoder.matches(inputPassword, password)) {//비밀번호체크
 			return false;
 		}
+		httpsession.setAttribute("studentsId", students.getStudentsId());
+		httpsession.setAttribute("studentsName", students.getStudentsName());
+		
 		return true;
 	}
 	//작성자가 작성한 게시물 조회

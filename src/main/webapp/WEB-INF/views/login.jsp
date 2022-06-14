@@ -48,24 +48,25 @@
        var jsonData = {
         studentsName : userId,
         studentsPassword : userPassword
-        }   
-      $.ajax({
-        url : '/api/v1/login',
-        type : 'POST',
-        contentType : 'application/json',
-        dataType : 'json',
-        data : JSON.stringify(jsonData),
-        success : function(response){
-          console.log(response)
-          if(response){
-            location.href = '/board';//페이지 이동
-          }
-          else{
-            alert('비밀번호혹은 이름이 틀렸습니다')
-          }
-        }
-      })
-      })    
+        };
+   		
+	      $.ajax({
+	        url : '/api/v1/login',
+	        type : 'POST',
+	        contentType : 'application/json',
+	        dataType : 'json',
+	        data : JSON.stringify(jsonData),
+	        success : function(response){
+	          console.log(response)
+	          if(response){
+	            location.href = '/board?pageNum=1&pageSize=10';//페이지 이동
+	          }
+	          else{
+	            alert('비밀번호혹은 이름이 틀렸습니다')
+	          }
+	        }
+	      });
+      });    
    </script>
   </body>
 </html>

@@ -1,10 +1,16 @@
 package com.dw.board.util;
 
-import lombok.Data;
 
-@Data
 
-public class pageHandler {
+import org.springframework.stereotype.Component;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Component
+public class PageHandler {
 	private int total;//전체 게시물 수
 	private int pageNum;//현재 페이지
 	private int pageSize;//1페이지에 맞게 게시물 표시할지
@@ -61,10 +67,10 @@ public class pageHandler {
 		this.startPage = (nowBlock*this.navigatePage)-(this.navigatePage-1);
 	}
 	//현재블록의 마지막페이지
-	public void setEndPage(int lastBlock, int nowBlock) {
+	public void setEndPage(int lastBlock, int pages) {
 		this.endPage = (nowBlock*this.navigatePage);
 		if(nowBlock == this.lastBlock) {
-			this.endPage = total;
+			this.endPage = pages;
 		}
 	}
 	//이전버튼 다음버튼 유무

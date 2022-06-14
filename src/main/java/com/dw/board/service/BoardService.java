@@ -29,6 +29,7 @@ public class BoardService {
 		PageHelper.startPage(pageNum, pageSize);
 		return boardmapper.selecrAllBoard();
 	}
+	
 	@Transactional(rollbackFor = {Exception.class})
 	public int deleteBoardList(int boardId) {
 		return boardmapper.deleteBoard(boardId);

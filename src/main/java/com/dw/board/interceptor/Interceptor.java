@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,6 +45,19 @@ public class Interceptor implements HandlerInterceptor {
 		vo.setLatitude("36.3286904");
 		vo.setLongitude("127.4229992");
 		logservice.setLog(vo);
+		
+		//세션체크
+		HttpSession session = request.getSession();
+		if(session.getAttribute("studentsId") != null) {
+		int studentsId = (int)session.getAttribute("studentsId");
+		String studentName = (String)session.getAttribute("studentsName");
+		System.out.println("id-->"+studentsId);
+		System.out.println("name-->"+studentName);
+		}
+		
+		if(session.getAttribute("studentsId") == null) {
+			response.sendRedirect("/login");//세션에 값이 없으면 login 다시 실행
+		}
 		return true;
 	}
 
