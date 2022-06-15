@@ -33,6 +33,9 @@ public class BoardController {
 		PageInfo<Map<String, Object>> pageinfo = new PageInfo<Map<String, Object>>(list);
 		map.addAttribute("pageHelper", pageinfo);
 		
+//		int x= (int) session.getAttribute("X");
+		
+		//학생 아이디 받아오기
 		int studentsId = (int)session.getAttribute("studentsId");
 		map.addAttribute("studentsId", studentsId);
 		
@@ -47,6 +50,7 @@ public class BoardController {
 		PageInfo<Map<String, Object>> pageinfo = new PageInfo<Map<String, Object>>(list);
 		map.addAttribute("pageHelper", pageinfo);
 		
+		//학생 아이디 받아오기
 		int studentsId = (int)session.getAttribute("studentsId");
 		map.addAttribute("studentsId", studentsId);
 		
