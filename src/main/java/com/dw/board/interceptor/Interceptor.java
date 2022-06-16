@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -19,6 +21,9 @@ import com.dw.board.vo.LogVO;
 @Component
 public class Interceptor implements HandlerInterceptor {
 
+	private static final Logger logger = LoggerFactory.getLogger(Interceptor.class);
+	
+	
 	@Autowired 
 	private LogService logservice;
 	
@@ -30,13 +35,13 @@ public class Interceptor implements HandlerInterceptor {
 		String ip = request.getHeader("X-forwarded-For");
 		String httpMethod = request.getMethod();
 		if(ip == null) ip = request.getRemoteAddr();
-		System.out.println("ip-->"+ip);
-		System.out.println("url-->"+url);
-		System.out.println("http method-->"+httpMethod);
 		
+		logger.info("client IP->"+ip);
+		logger.info("client url->"+url);
+		logger.info("client http method->"+httpMethod);
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);//한국시간으로 강제로 맞춤
 		String time = formatter.format(Calendar.getInstance().getTime());
-		System.out.println("time-->"+time);
+		logger.info("time->"+time);
 		LogVO vo = new LogVO();
 		vo.setUrl(url);
 		vo.setIp(ip);
@@ -57,6 +62,7 @@ public class Interceptor implements HandlerInterceptor {
 		
 		if(session.getAttribute("studentsId") == null) {
 			response.sendRedirect("/login");//세션에 값이 없으면 login 다시 실행
+			return false;
 		}
 		return true;
 	}

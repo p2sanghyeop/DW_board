@@ -169,6 +169,14 @@ body{
     color: var(--white);
     border-radius: 6px;
 }
+.excel-btn{
+    position: relative;
+    padding: 0.8%;
+    background: #1cc88a;
+    text-decoration: none;
+    color: var(--white);
+    border-radius: 6px;
+}
 .details table{
     width: 100%;
     border-collapse: collapse;
