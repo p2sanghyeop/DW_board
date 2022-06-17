@@ -10,7 +10,7 @@ server:
 #개발버전 설정
 spring:
    profiles:
-      active: dev
+      active: env
 
 #mybatis설정
 mybatis:

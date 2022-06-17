@@ -1,8 +1,11 @@
 package com.dw.board.vo;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+
 public class BoardVO extends StudentsVO {
 	private int boardId;
 	private String title;
